@@ -1,0 +1,97 @@
+#include <iostream>
+
+using namespace std;
+class Stack
+{
+private:
+    int* arr;
+    int tos;
+    int size;
+    static int counter;
+public:
+    Stack()
+    {
+        counter++;
+        tos=0;
+        size=5;
+        arr=new int[size];
+    }
+    Stack(int _size)
+    {
+        counter++;
+        tos=0;
+        size=_size;
+        arr=new int[size];
+    }
+    ~Stack()
+    {
+        for (int i=0; i<sizeof(arr); i++)
+        {
+            arr[i]=-1;
+        }
+        delete[] arr;
+        counter--;
+    }
+    void push(int num)
+    {
+        if(!isFull())
+        {
+            arr[tos]=num;
+            tos++;
+        }
+        else
+        {
+            cout<<"FULL !!!!!\n";
+        }
+    }
+    int pop()
+    {
+        if(!isEmpty())
+        {
+            tos--;
+            return arr[tos];
+        }
+        else
+        {
+            cout<<"EMPTY !!!!! \n";
+        }
+    }
+    bool isFull()
+    {
+        return tos==size;
+    }
+    bool isEmpty()
+    {
+        return tos==0;
+    }
+    static int getCounter()
+    {
+        return counter;
+    }
+
+    friend void print(Stack para);
+};
+void print(Stack para)
+{
+    for(int i=0; i<para.tos; i++)
+    {
+        cout<<para.arr[i]<<"\n";
+    }
+}
+int Stack::counter=0;
+int main()
+{
+
+    Stack s1;
+    s1.push(10);
+    s1.push(80);
+    s1.push(50);
+    s1.push(60);
+    s1.push(30);
+    cout<<"First Print\n";
+    print(s1);
+    cout<<"Second Print\n";
+    print(s1);
+    cout<<"The Counter = "<<Stack::getCounter();
+    return 0;
+}
